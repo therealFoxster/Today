@@ -9,6 +9,7 @@ import UIKit
 
 class ReminderListViewController: UICollectionViewController {
     var dataSource: DataSource!
+    var reminders: [Reminder] = Reminder.sampleData
     
     // Called after view controller's view hierachy is loaded into memory.
     override func viewDidLoad() {
@@ -22,16 +23,14 @@ class ReminderListViewController: UICollectionViewController {
         
         // Connect diffable data source to collection view.
         // init(collectionView:cellProvider:)
-        dataSource = DataSource(collectionView: collectionView, cellProvider: { (collectionView: UICollectionView, indexPath: IndexPath, itemIdentifier: String) in
+        dataSource = DataSource(collectionView: collectionView) {
+            (collectionView: UICollectionView, indexPath: IndexPath, itemIdentifier: Reminder.ID) in
             
             // Return cell obtained from reusable pool of cells & use configuration (cellRegistration) to add content and styling.
             return collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: itemIdentifier)
-        })
+        }
         
-        var snapshot = Snapshot() // Create new snapshot when view initially loads & when app data changes.
-        snapshot.appendSections([0]) // Append single section (index: 0).
-        snapshot.appendItems(Reminder.sampleData.map { $0.title })
-        dataSource.apply(snapshot)
+        updateSnapshot()
         
         collectionView.dataSource = dataSource
     }
