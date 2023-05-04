@@ -23,11 +23,9 @@ extension ReminderListViewController {
         var snapshot = Snapshot() // Note: create new snapshot when view initially loads & when app data changes.
         snapshot.appendSections([0]) // Append single section (index: 0).
         snapshot.appendItems(reminders.map { $0.id })
-        
         if !ids.isEmpty {
             snapshot.reloadItems(ids)
         }
-        
         dataSource.apply(snapshot)
     }
     
@@ -82,12 +80,12 @@ extension ReminderListViewController {
     }
     
     func reminder(withId id: Reminder.ID) -> Reminder {
-        let index = reminders.indexOfReminder(with: id)
+        let index = reminders.indexOfReminder(withId: id)
         return reminders[index]
     }
     
     func updateReminder(_ reminder: Reminder) {
-        let index = reminders.indexOfReminder(with: reminder.id)
+        let index = reminders.indexOfReminder(withId: reminder.id)
         reminders[index] = reminder
     }
     
@@ -96,6 +94,15 @@ extension ReminderListViewController {
         reminder.isComplete.toggle()
         updateReminder(reminder)
         updateSnapshot(reloading: [id])
+    }
+    
+    func addReminder(_ reminder: Reminder) {
+        reminders.append(reminder)
+    }
+    
+    func deleteReminder(withId id: Reminder.ID) {
+        let index = reminders.indexOfReminder(withId: id)
+        reminders.remove(at: index)
     }
     
 }

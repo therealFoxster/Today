@@ -1,5 +1,5 @@
 //
-//  DatePIckerContentView.swift
+//  DatePickerContentView.swift
 //  Today
 //
 //  Created by Huy Bui on 2023-05-03.
@@ -10,6 +10,7 @@ import UIKit
 class DatePickerContentView: UIView, UIContentView {
     struct Configuration: UIContentConfiguration {
         var date: Date = Date.now
+        var onChange: (Date) -> Void = { _ in }
         
         func makeContentView() -> UIView & UIContentView {
             return DatePickerContentView(self)
@@ -27,6 +28,7 @@ class DatePickerContentView: UIView, UIContentView {
         self.configuration = configuration
         super.init(frame: .zero)
         addPinnedSubview(datePicker)
+        datePicker.addTarget(self, action: #selector(didChange(_:)), for: .valueChanged)
         datePicker.preferredDatePickerStyle = .inline
     }
     
@@ -37,6 +39,11 @@ class DatePickerContentView: UIView, UIContentView {
     func configure(configuration: UIContentConfiguration) {
         guard let configuration = configuration as? Configuration else { return }
         datePicker.date = configuration.date
+    }
+    
+    @objc private func didChange(_ sender: UIDatePicker) {
+        guard let configuration = configuration as? Configuration else { return }
+        configuration.onChange(sender.date)
     }
 }
 
