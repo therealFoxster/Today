@@ -57,6 +57,16 @@ class ReminderViewController: UICollectionViewController {
         updateSnapshotForViewing()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        let opaqueAppearance = UINavigationBarAppearance()
+        opaqueAppearance.configureWithOpaqueBackground()
+        navigationController?.navigationBar.scrollEdgeAppearance = opaqueAppearance
+        navigationController?.navigationBar.standardAppearance = opaqueAppearance
+        navigationController?.navigationBar.backgroundColor = .todayNavigationBackground
+    }
+    
     override func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
         return false
     }

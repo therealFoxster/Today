@@ -19,7 +19,7 @@ class ProgressHeaderView: UICollectionReusableView {
                 noAnimation = false
                 return
             }
-            UIView.animate(withDuration: 1.5, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 0.05) { [weak self] in
+            UIView.animate(withDuration: 1.25, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 0.05) { [weak self] in
                 self?.layoutIfNeeded()
             }
         }
