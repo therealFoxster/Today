@@ -31,4 +31,9 @@ extension ReminderListViewController {
     @objc func didCancelAdd(_ sender: UIBarButtonItem) {
         dismiss(animated: true)
     }
+    
+    @objc func didChangeListStyle(_ sender: UISegmentedControl) {
+        listStyle = ReminderListStyle(rawValue: sender.selectedSegmentIndex) ?? .today
+        updateSnapshot()
+    }
 }

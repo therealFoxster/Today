@@ -37,7 +37,7 @@ class ReminderViewController: UICollectionViewController {
     // View controllers require init(coder:) so system can initialize them using archives (of created view controllers) stored by Interface Builder.
     // Since ReminderViewController objects will be created in code, this initializer won't and shouldn't be used.
     required init?(coder: NSCoder) {
-        fatalError("Always initialize ReminderViewController using init(reminder:)")
+        fatalError("init(coder:) has not been implemented")
     }
     
     override func viewDidLoad() {

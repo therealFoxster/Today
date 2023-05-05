@@ -37,7 +37,7 @@ class TextFieldContentView: UIView, UIContentView {
     }
     
     required init?(coder: NSCoder) {
-        fatalError("Always initialize TextFieldContentView using init(_:)")
+        fatalError("init(coder:) has not been implemented")
     }
     
     func configure(configuration: UIContentConfiguration) {

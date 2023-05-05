@@ -33,7 +33,7 @@ class DatePickerContentView: UIView, UIContentView {
     }
     
     required init?(coder: NSCoder) {
-        fatalError("Always initialize DatePickerContentView using init(_:)")
+        fatalError("init(coder:) has not been implemented")
     }
     
     func configure(configuration: UIContentConfiguration) {

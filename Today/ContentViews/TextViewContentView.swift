@@ -39,7 +39,7 @@ class TextViewContentView: UIView, UIContentView {
     }
     
     required init?(coder: NSCoder) {
-        fatalError("Always initialize TextViewContentView using init(_:)")
+        fatalError("init(coder:) has not been implemented")
     }
     
     func configure(configuration: UIContentConfiguration) {
