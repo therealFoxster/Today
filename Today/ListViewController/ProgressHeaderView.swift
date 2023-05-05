@@ -14,6 +14,7 @@ class ProgressHeaderView: UICollectionReusableView {
     var progress: CGFloat = 0 {
         didSet {
             setNeedsLayout()
+            progressLabel.text = "\(Int(round(progress * 100)))%"
             heightConstraint?.constant = progress * bounds.height
             if noAnimation {
                 noAnimation = false
@@ -28,6 +29,7 @@ class ProgressHeaderView: UICollectionReusableView {
     private let upperView = UIView(frame: .zero)
     private let lowerView = UIView(frame: .zero)
     private let container = UIView(frame: .zero)
+    private let progressLabel = UILabel()
     
     private var heightConstraint: NSLayoutConstraint?
     private var valueFormat: String {
@@ -49,19 +51,25 @@ class ProgressHeaderView: UICollectionReusableView {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        accessibilityValue = String(format: valueFormat, Int(progress * 100))
+        accessibilityValue = String(format: valueFormat, Int(round(progress * 100)))
         heightConstraint?.constant = progress * bounds.height
         container.layer.masksToBounds = true
         container.layer.cornerRadius = 0.5 * container.bounds.width
     }
     
     private func prepareSubviews() {
+        progressLabel.font = .systemFont(ofSize: 72, weight: .semibold)
+        progressLabel.textAlignment = .center
+        progressLabel.textColor = .quaternaryLabel
+        
         container.addSubview(upperView)
         container.addSubview(lowerView)
+        container.addSubview(progressLabel)
         addSubview(container)
         
         upperView.translatesAutoresizingMaskIntoConstraints = false
         lowerView.translatesAutoresizingMaskIntoConstraints = false
+        progressLabel.translatesAutoresizingMaskIntoConstraints = false
         container.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
@@ -79,7 +87,10 @@ class ProgressHeaderView: UICollectionReusableView {
             upperView.leadingAnchor.constraint(equalTo: leadingAnchor),
             upperView.trailingAnchor.constraint(equalTo: trailingAnchor),
             lowerView.leadingAnchor.constraint(equalTo: leadingAnchor),
-            lowerView.trailingAnchor.constraint(equalTo: trailingAnchor)
+            lowerView.trailingAnchor.constraint(equalTo: trailingAnchor),
+            
+            progressLabel.heightAnchor.constraint(equalTo: progressLabel.widthAnchor),
+            progressLabel.widthAnchor.constraint(equalTo: container.widthAnchor)
         ])
         heightConstraint = lowerView.heightAnchor.constraint(equalToConstant: 0)
         heightConstraint?.isActive = true
