@@ -52,4 +52,34 @@ final class ReminderStore { // "final" class can't be subclassed.
         }
         return reminders
     }
+    
+    @discardableResult // Instruct compliler to omit warnings in cases where results returned by this function are unused.
+    func save(_ reminder: Reminder) throws -> Reminder.ID {
+        guard isAvailable else { throw TodayError.accessDenied }
+        
+        let ekReminder: EKReminder
+        do {
+            ekReminder = try read(with: reminder.id) // Found existing reminder.
+        } catch {
+            ekReminder = EKReminder(eventStore: ekStore) // Create new reminder.
+        }
+        ekReminder.update(using: reminder, in: ekStore)
+        try ekStore.save(ekReminder, commit: true)
+        
+        return ekReminder.calendarItemIdentifier
+    }
+    
+    func remove(with id: Reminder.ID) throws {
+        guard isAvailable else { throw TodayError.accessDenied }
+        
+        let ekReminder = try read(with: id)
+        try ekStore.remove(ekReminder, commit: true)
+    }
+    
+    private func read(with id: Reminder.ID) throws -> EKReminder {
+        guard let ekReminder = ekStore.calendarItem(withIdentifier: id) as? EKReminder else {
+            throw TodayError.failedReadingCalendarItem
+        }
+        return ekReminder
+    }
 }
