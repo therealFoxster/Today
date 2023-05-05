@@ -48,6 +48,7 @@ class ReminderViewController: UICollectionViewController {
             navigationItem.style = .navigator
         }
         navigationItem.rightBarButtonItem = editButtonItem
+        navigationItem.largeTitleDisplayMode = .never
         
         let cellRegistration = UICollectionView.CellRegistration(handler: cellRegistrationHandler)
         dataSource = DataSource(collectionView: collectionView, cellProvider: { collectionView, indexPath, itemIdentifier in
@@ -64,7 +65,6 @@ class ReminderViewController: UICollectionViewController {
         opaqueAppearance.configureWithOpaqueBackground()
         navigationController?.navigationBar.scrollEdgeAppearance = opaqueAppearance
         navigationController?.navigationBar.standardAppearance = opaqueAppearance
-        navigationController?.navigationBar.backgroundColor = .todayNavigationBackground
     }
     
     override func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
