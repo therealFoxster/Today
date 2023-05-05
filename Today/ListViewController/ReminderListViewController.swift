@@ -9,7 +9,7 @@ import UIKit
 
 class ReminderListViewController: UICollectionViewController {
     var dataSource: DataSource!
-    var reminders: [Reminder] = Reminder.sampleData
+    var reminders: [Reminder] = []
     var listStyle: ReminderListStyle = .today
     var filteredReminders: [Reminder] {
         reminders
@@ -72,6 +72,8 @@ class ReminderListViewController: UICollectionViewController {
         updateSnapshot()
         
         collectionView.dataSource = dataSource
+        
+        prepareReminderStore()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -117,6 +119,20 @@ class ReminderListViewController: UICollectionViewController {
             self?.updateSnapshot(reloading: [reminder.id])
         }
         navigationController?.pushViewController(viewController, animated: true)
+    }
+    
+    func showError(_ error: Error) {
+        let alert = UIAlertController(
+            title: NSLocalizedString("Error", comment: "Error alert title"),
+            message: error.localizedDescription,
+            preferredStyle: .alert
+        )
+        let okAction = UIAlertAction(title: NSLocalizedString("OK", comment: "Alert OK button title"), style: .cancel) {
+            [weak self] _ in
+            self?.dismiss(animated: true)
+        }
+        alert.addAction(okAction)
+        present(alert, animated: true);
     }
 
     private func listLayout() -> UICollectionViewCompositionalLayout {
