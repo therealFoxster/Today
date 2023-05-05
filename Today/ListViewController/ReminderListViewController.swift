@@ -10,6 +10,13 @@ import UIKit
 class ReminderListViewController: UICollectionViewController {
     var dataSource: DataSource!
     var reminders: [Reminder] = Reminder.sampleData
+    var listStyle: ReminderListStyle = .today
+    var filteredReminders: [Reminder] {
+        reminders
+            .filter { listStyle.shouldInclude(date: $0.dueDate) }
+            .sorted { $0.dueDate < $1.dueDate }
+    }
+    let listStyleSegmentedControl = UISegmentedControl(items: ReminderListStyle.allCases.map { $0.name })
     
     // Called after view controller's view hierachy is loaded into memory.
     override func viewDidLoad() {
@@ -30,9 +37,17 @@ class ReminderListViewController: UICollectionViewController {
             return collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: itemIdentifier)
         }
         
+        navigationItem.title = "Today"
+        navigationController?.navigationBar.prefersLargeTitles = true
+        
         let addButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(didPressAddButton(_:)))
         addButton.accessibilityLabel = NSLocalizedString("Add reminder", comment: "Add button accessibility label")
         navigationItem.rightBarButtonItem = addButton
+        
+        listStyleSegmentedControl.selectedSegmentIndex = listStyle.rawValue
+        listStyleSegmentedControl.addTarget(self, action: #selector(didChangeListStyle(_:)), for: .valueChanged)
+        navigationItem.titleView = listStyleSegmentedControl
+        
         if #available(iOS 16, *) {
             navigationItem.style = .navigator
         }
@@ -43,7 +58,7 @@ class ReminderListViewController: UICollectionViewController {
     }
     
     override func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
-        let id = reminders[indexPath.item].id
+        let id = filteredReminders[indexPath.item].id
         pushDetailViewForReminder(withId: id)
         return true
     }
@@ -74,6 +89,11 @@ class ReminderListViewController: UICollectionViewController {
             completion(false)
         }
         return UISwipeActionsConfiguration(actions: [deleteAction])
+    }
+    
+    @objc private func didChangeListStyle(_ sender: UISegmentedControl) {
+        listStyle = ReminderListStyle(rawValue: sender.selectedSegmentIndex) ?? .today
+        updateSnapshot()
     }
     
 }
