@@ -36,5 +36,14 @@ extension ReminderListViewController {
         listStyle = ReminderListStyle(rawValue: sender.selectedSegmentIndex) ?? .today
         updateSnapshot()
         refreshBackground()
+        
+        switch listStyle {
+        case .today:
+            title = NSLocalizedString("Welcome to Today", comment: "Welcome to today title")
+        case .future:
+            title = NSLocalizedString("Future Tasks", comment: "Future tasks title")
+        case .all:
+            title = NSLocalizedString("All Tasks", comment: "All tasks title")
+        }
     }
 }

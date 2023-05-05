@@ -53,16 +53,16 @@ class ReminderListViewController: UICollectionViewController {
             return self.collectionView.dequeueConfiguredReusableSupplementary(using: headerRegistration, for: indexPath)
         }
         
-//        navigationItem.title = "Today"
-//        navigationController?.navigationBar.prefersLargeTitles = true
+        navigationItem.title = NSLocalizedString("Welcome to Today", comment: "Welcome to today title")
+        navigationController?.navigationBar.prefersLargeTitles = true
         
         let addButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(didPressAddButton(_:)))
         addButton.accessibilityLabel = NSLocalizedString("Add reminder", comment: "Add button accessibility label")
         addButton.tintColor = .label
         navigationItem.rightBarButtonItem = addButton
         
-        listStyleSegmentedControl.selectedSegmentIndex = listStyle.rawValue
         listStyleSegmentedControl.addTarget(self, action: #selector(didChangeListStyle(_:)), for: .valueChanged)
+        listStyleSegmentedControl.selectedSegmentIndex = listStyle.rawValue
         navigationItem.titleView = listStyleSegmentedControl
         
         if #available(iOS 16, *) {
