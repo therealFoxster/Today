@@ -427,7 +427,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = A485CBPX55;
+				DEVELOPMENT_TEAM = FVTKG328P4;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Today/Info.plist;
 				INFOPLIST_KEY_NSRemindersUsageDescription = "Your reminders can help you stay on track.";
@@ -456,7 +456,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = A485CBPX55;
+				DEVELOPMENT_TEAM = FVTKG328P4;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Today/Info.plist;
 				INFOPLIST_KEY_NSRemindersUsageDescription = "Your reminders can help you stay on track.";

@@ -25,7 +25,12 @@ final class ReminderStore { // "final" class can't be subclassed.
         case .restricted:
             throw TodayError.accessRestricted
         case .notDetermined:
-            let accessGranted = try await ekStore.requestAccess(to: .reminder)
+            var accessGranted: Bool
+            if #available(iOS 17, *) {
+                accessGranted = try await ekStore.requestFullAccessToReminders()
+            } else {
+                accessGranted = try await ekStore.requestAccess(to: .reminder)
+            }
             guard accessGranted else { throw TodayError.accessDenied }
         case .denied:
             throw TodayError.accessDenied
